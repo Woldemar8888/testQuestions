@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>testQuestions</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+    <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>  
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class App extends React.Component {
+          constructor(props){
+              super(props);
+              this.checkForRight = this.checkForRight.bind(this);
+              this.state = {
+                test: [
+                    {
+                        question: 'Столица Германии',
+                        answers: [
+                            'Кельн',
+                            'Гамбург',
+                            'Берлин',
+                            'Мюнхен',
+                            'Штутгард',
+                        ],
+                        right: 3, //номер правильного ответа
+                    },
+                    {
+                        question: 'Столица Франции',
+                        answers: [
+                            'Париж',
+                            'Марсель',
+                            'Ницца',
+                            'Канны',
+                            'Авиньон',
+                        ],
+                        right: 1, //номер правильного ответа
+                    },
+                    {
+                        question: 'Столица Беларуси',
+                        answers: [
+                            'Гомель',
+                            'Минск',
+                            'Лепель',
+                            'Витебск',
+                            'Борисов',
+                        ],
+                        right: 2, //номер правильного ответа
+                    },
+                    {
+                        question: 'Столица Бельгии',
+                        answers: [
+                            'Антверпен',
+                            'Льеж',
+                            'Намюр',
+                            'Лёвен',
+                            'Брюссель',
+                        ],
+                        right: 5, //номер правильного ответа
+                    },
+                    {
+                        question: 'Столица Японии',
+                        answers: [
+                            'Токио',
+                            'Киото',
+                            'Иокогама',
+                            'Нагоя',
+                            'Осака',
+                        ],
+                        right: 1, //номер правильного ответа
+                    },
+                    
+                ],
+                  countRight: 0,
+                  countFalse: 0
+            };
+          }
+          
+          checkForRight(num, right, event){
+              let target = event.target;
+              let input;
+              let parent;
+
+              if (target.tagName == 'INPUT'){
+                  parent = target.parentElement.parentElement;
+                  input= target;
+              } else {
+                  input =target.querySelector('input[type="radio"]');
+                  parent =target.parentElement;
+                  if(!input.disabled) input.checked = 'true';
+              }
+              
+              if(!input.disabled){
+                  let inputs = parent.querySelectorAll('input[type="radio"]');
+                      inputs.forEach((elem)=>{
+                          elem.disabled = 'true';
+                      });
+                  
+                  if (num+1 == right){
+                    parent.style.background = 'green';
+                    this.setState({countRight: ++this.state.countRight});
+                   }else{
+                      parent.style.background = 'red';
+                       this.setState({countFalse: ++this.state.countFalse});
+                  } 
+              }
+              if(this.state.countFalse+this.state.countRight == this.state.test.length){
+                  alert('Правильных ответов '+this.state.countRight);
+                  location.reload();
+              }
+          }
+          
+
+          render(){
+              
+              const questions = this.state.test.map((elem,index)=>{
+                  const right = elem.right;
+                  const answers = elem.answers.map((item, num)=>{
+                      return (
+                        <Answer
+                            key={num}
+                            answer={item}
+                            name={index}
+                            checkForRight = {this.checkForRight.bind(null, num, right)}
+                        />
+                      )
+                  })
+                  return (
+                    <Question
+                        key={index}
+                        text={elem.question}
+                        answers={answers}
+                    />
+                  )
+              })
+              return (
+                <div>
+                   {questions}
+                </div>
+              )
+          }
+        }
+
+        class Question extends React.Component {
+            render(){
+                return (
+                    <p>
+                        {this.props.text}
+                        {this.props.answers}
+                    </p>
+                )
+            }
+        }
+
+        class Answer extends React.Component {
+            render(){
+                return (
+                    <span className="block" onClick={this.props.checkForRight}>
+                        <input 
+                            type="radio"
+                            name={this.props.name}
+                            
+                            />
+                        {this.props.answer}
+                    </span>
+                )
+            }
+        }
+
+        
+
+        ReactDOM.render(<App/>, document.getElementById('root'));
+    </script>
+</body>
+</html>

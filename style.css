@@ -1,0 +1,24 @@
+*{
+    box-sizing: border-box;
+}
+
+.block {
+    display: block;
+}
+
+p {
+    margin-top: 40px;
+    margin-left: 40px;
+    font-size: 30px;
+ }
+
+p:first-child{
+    margin-top: 20px;
+}
+
+span {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+
