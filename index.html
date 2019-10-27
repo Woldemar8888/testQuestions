@@ -7,7 +7,8 @@
     <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
     <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
     <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
-    <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>  
+    <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+    <script src="test.js"></script>  
 </head>
 <body>
     <div id="root"></div>
@@ -17,64 +18,8 @@
               super(props);
               this.checkForRight = this.checkForRight.bind(this);
               this.state = {
-                test: [
-                    {
-                        question: 'Столица Германии',
-                        answers: [
-                            'Кельн',
-                            'Гамбург',
-                            'Берлин',
-                            'Мюнхен',
-                            'Штутгард',
-                        ],
-                        right: 3, //номер правильного ответа
-                    },
-                    {
-                        question: 'Столица Франции',
-                        answers: [
-                            'Париж',
-                            'Марсель',
-                            'Ницца',
-                            'Канны',
-                            'Авиньон',
-                        ],
-                        right: 1, //номер правильного ответа
-                    },
-                    {
-                        question: 'Столица Беларуси',
-                        answers: [
-                            'Гомель',
-                            'Минск',
-                            'Лепель',
-                            'Витебск',
-                            'Борисов',
-                        ],
-                        right: 2, //номер правильного ответа
-                    },
-                    {
-                        question: 'Столица Бельгии',
-                        answers: [
-                            'Антверпен',
-                            'Льеж',
-                            'Намюр',
-                            'Лёвен',
-                            'Брюссель',
-                        ],
-                        right: 5, //номер правильного ответа
-                    },
-                    {
-                        question: 'Столица Японии',
-                        answers: [
-                            'Токио',
-                            'Киото',
-                            'Иокогама',
-                            'Нагоя',
-                            'Осака',
-                        ],
-                        right: 1, //номер правильного ответа
-                    },
-                    
-                ],
+                  test,
+                  answers: [],
                   countRight: 0,
                   countFalse: 0
             };
@@ -109,8 +54,9 @@
                   } 
               }
               if(this.state.countFalse+this.state.countRight == this.state.test.length){
-                  alert('Правильных ответов '+this.state.countRight);
-                  location.reload();
+                  setTimeout(()=>{alert('Правильных ответов '+this.state.countRight);
+                  location.reload()}, 500);
+                  
               }
           }
           
@@ -145,34 +91,28 @@
           }
         }
 
-        class Question extends React.Component {
-            render(){
+        const Question =(props)=> {
                 return (
                     <p>
-                        {this.props.text}
-                        {this.props.answers}
+                        {props.text}
+                        {props.answers}
                     </p>
                 )
             }
-        }
 
-        class Answer extends React.Component {
-            render(){
+        const Answer =(props)=> {
                 return (
-                    <span className="block" onClick={this.props.checkForRight}>
+                    <span className="block" onClick={props.checkForRight}>
                         <input 
                             type="radio"
-                            name={this.props.name}
-                            
+                            name={props.name}
                             />
-                        {this.props.answer}
+                        {props.answer}
                     </span>
                 )
             }
-        }
-
         
-
+        
         ReactDOM.render(<App/>, document.getElementById('root'));
     </script>
 </body>
